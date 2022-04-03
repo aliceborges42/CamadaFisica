@@ -1,30 +1,38 @@
 #ifndef CAMADA_FISICA
 #define CAMADA_FISICA
-
+#include <iostream>
+#include <string>
+#include <math.h>
+#include <stdlib.h>
+#include <vector>
+#include <bits/stdc++.h>
+#include <bitset>
+using namespace std;
 void AplicacaoTransmissora();
 void CamadaDeAplicacaoTransmissora(string mensagem);
-void CamadaFisicaTransmissora(int* quadro);
+vector<int> ConvertToBits(string mensagem);
+void CamadaFisicaTransmissora(vector<int> quadro);
 
-// Codificação/Decodificação Binária
-int *CamadaFisicaTransmissoraCodificacaoBinaria(int *quadro);
-int *CamadaFisicaReceptoraDecodificacaoBinaria(int *quadro);
+// // Codificação/Decodificação Binária
+vector<int> CamadaFisicaTransmissoraCodificacaoBinaria(vector<int> quadro);
+vector<int> CamadaFisicaReceptoraDecodificacaoBinaria(vector<int> quadro);
 
-// Codificação/Decodificação Manchester
-int *CamadaFisicaTransmissoraCodificacaoManchester(int *quadro);
-int *CamadaFisicaReceptoraDecodificacaoManchester(int *quadro);
+// // Codificação/Decodificação Manchester
+vector<int> CamadaFisicaTransmissoraCodificacaoManchester(vector<int> quadro);
+vector<int> CamadaFisicaReceptoraDecodificacaoManchester(vector<int> fluxoBrutoDeBits);
 
-// Codificação/Decodificação Manchester Diferencial
-int *CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int *quadro);
-int *CamadaFisicaReceptoraDecodificacaoManchesterDiferencial (int *quadro);
+// // Codificação/Decodificação Bipolar
+vector<int> CamadaFisicaTransmissoraCodificacaoBipolar(vector<int> quadro);
+vector<int> CamadaFisicaReceptoraDecodificacaoBipolar (vector<int> quadro);
 
-// Meio entre o transmissor e o receptor
-void MeioDeComunicacao(int* fluxoBrutodeBits);
+// // Meio entre o transmissor e o receptor
+void MeioDeComunicacao(vector <int>  fluxoBrutodeBits);
 
-// simulador por parte do receptor
-void CamadaFisicaReceptora(int* quadro);
-void CamadaDeAplicacaoReceptora(int* quadro);
+// // simulador por parte do receptor
+void CamadaFisicaReceptora(vector<int> quadro);
+void CamadaDeAplicacaoReceptora(vector<int> quadro);
 
-// simulação da aplicação final recebendo a mensagem enviada do transmissor
+// // simulação da aplicação final recebendo a mensagem enviada do transmissor
 void AplicacaoReceptora(string mensagem);
 
 #endif
