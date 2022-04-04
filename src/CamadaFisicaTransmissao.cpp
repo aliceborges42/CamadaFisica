@@ -28,7 +28,12 @@ vector<int> ConvertToBits(string mensagem){
 void CamadaDeAplicacaoTransmissora(string mensagem){
     //transformar a mensagem em bits e colocar em quadro.
 		vector<int> quadro = ConvertToBits(mensagem);
-    for(int i: quadro)
+
+		attron(COLOR_PAIR(2));
+		printw("Camada De Aplicacao Transmissora\n");
+		attroff(COLOR_PAIR(2));
+
+		for(int i: quadro)
         printw("%d", i);
 		printw("\n");
 		CamadaFisicaTransmissora(quadro);
@@ -43,8 +48,19 @@ void AplicacaoTransmissora(){
 	string mensagem;
 
 	initscr();
+	start_color();
+	init_pair(1, COLOR_GREEN, COLOR_BLACK);
+	init_pair(2, COLOR_BLUE, COLOR_BLACK);
+	init_pair(3, COLOR_WHITE, COLOR_BLACK);
+	init_pair(4, COLOR_RED, COLOR_BLACK);
+	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+
+	attron(COLOR_PAIR(2));
+	printw("Aplicação Transmissora\n");
+	attroff(COLOR_PAIR(2));
 
 	printw("Digite uma mensagem: ");
+
 	getstr(a);
 	
 	int i = 0;
@@ -54,28 +70,65 @@ void AplicacaoTransmissora(){
 		i++;
 	}
 	printw("\n");
+	attron(COLOR_PAIR(2));
+	printw("Escolha o tipo de codificação\n");
 	printw(" 0 - Binaria\n 1 - Manchester\n 2 - Bipolar\n\n");
+	attroff(COLOR_PAIR(2));
+
 	scanw("%c", &op);
 	printw("\n");
 
 	refresh();
+
+	attron(COLOR_PAIR(1));
+	printw("Mensagem a ser transmitida: ");
+	attroff(COLOR_PAIR(1));
+	printw("%s\n", mensagem);
+	
+	attron(COLOR_PAIR(1));
+	if (op == '0')
+	{
+		printw("Codificação escolhida: ");
+		attroff(COLOR_PAIR(1));
+		printw("Binaria\n\n");
+	}
+
+	attron(COLOR_PAIR(1));
+	if (op == '1')
+	{
+		printw("Codificação escolhida: ");
+		attroff(COLOR_PAIR(1));
+		printw("Manchester\n\n");
+	}
+
+	attron(COLOR_PAIR(1));
+	if (op == '2')
+	{
+		printw("Codificação escolhida: ");
+		attroff(COLOR_PAIR(1));
+		printw("Bipolar\n\n");
+	}
+	attroff(COLOR_PAIR(1));
+
 	CamadaDeAplicacaoTransmissora(mensagem);
 
 	getch();
 
 	endwin();
-
 }
 
 vector<int> CamadaFisicaTransmissoraCodificacaoBinaria(vector<int>quadro){
-    
-    printw("\nCodificação Fisica Binaria: ");
-    for(int i: quadro)
-			printw("%d", i);
-		printw("\n");
 
-		refresh();
-		return quadro;
+	attron(COLOR_PAIR(2));
+	printw("\nCamada Fisica Transmissora - Codificação Binaria: \n");
+	attroff(COLOR_PAIR(2));
+
+	for (int i : quadro)
+		printw("%d", i);
+	printw("\n");
+
+	refresh();
+	return quadro;
 }
 
 vector<int> CamadaFisicaTransmissoraCodificacaoManchester(vector<int> quadro){
@@ -98,7 +151,10 @@ vector<int> CamadaFisicaTransmissoraCodificacaoManchester(vector<int> quadro){
 
         }
     }
-    printw("\nCodificacao Manchester: ");
+		attron(COLOR_PAIR(2));
+		printw("\nCamada Fisica Transmissora - Codificação Manchester: \n");
+		attroff(COLOR_PAIR(2));
+
     for(int k: fluxoBrutoDeBits)
 			printw("%d", k);
 		printw("\n");
@@ -130,8 +186,11 @@ vector<int> CamadaFisicaTransmissoraCodificacaoBipolar(vector<int> quadro){
          
         }
     }
-    printw("\nCodificação Bipolar: ");
-    for(int k: fluxoBrutoDeBits)
+		attron(COLOR_PAIR(2));
+		printw("\nCamada Fisica Transmissora - Codificação Bipolar: \n");
+		attroff(COLOR_PAIR(2));
+
+		for(int k: fluxoBrutoDeBits)
         printw("%d", k);
 		printw("\n");
 
@@ -176,14 +235,17 @@ void MeioDeComunicacao(vector <int> fluxoBrutodeBits){
 // //RECEPÇÃO
 vector<int> CamadaFisicaReceptoraCodificacaoBinaria(vector<int> quadro){
 
-    printw("\nDecodificação Fisica Binaria: ");
-    for(int i: quadro)
-        printw("%d", i);
-		printw("\n");
+	attron(COLOR_PAIR(2));
+	printw("\nCamada Fisica Receptora - Codificação Binaria: \n");
+	attroff(COLOR_PAIR(2));
 
-		refresh();
+	for (int i : quadro)
+		printw("%d", i);
+	printw("\n");
 
-		return quadro;
+	refresh();
+
+	return quadro;
 }
 vector<int> CamadaFisicaReceptoraCodificacaoManchester(vector<int> fluxoBrutoDeBits){
     int i;
@@ -196,8 +258,11 @@ vector<int> CamadaFisicaReceptoraCodificacaoManchester(vector<int> fluxoBrutoDeB
             quadro.push_back(1);
         }
     }
-    printw("\nDecodificacao Manchester: ");
-    for(int k: quadro)
+		attron(COLOR_PAIR(2));
+		printw("\nCamada Fisica Receptora - Codificação Manchester: \n");
+		attroff(COLOR_PAIR(2));
+
+		for(int k: quadro)
         printw("%d", k);
 		printw("\n");
 
@@ -216,8 +281,11 @@ vector<int> CamadaFisicaReceptoraCodificacaoBipolar(vector<int> fluxoBrutoDeBits
         else
             quadro.push_back(0);
     }
-    printw("\nDecodificacao Bipolar: ");
-    for(int k: quadro)
+		attron(COLOR_PAIR(2));
+		printw("\nCamada Fisica Receptora - Codificação Bipolar: \n");
+		attroff(COLOR_PAIR(2));
+
+		for(int k: quadro)
         printw("%d", k);
 		printw("\n");
 
@@ -241,7 +309,10 @@ void CamadaFisicaReceptora(vector<int> quadro){
             fluxoBrutoDeBits = CamadaFisicaReceptoraCodificacaoBipolar(quadro);
             break;
     }
-    printw("\ncamada fisica receptora");
+		attron(COLOR_PAIR(5));
+		printw("\n\nCamada Fisica Receptora \n");
+		attroff(COLOR_PAIR(5));
+		printw("Sua mensagem foi recebida\n\n");
 
 		refresh();
 
@@ -266,24 +337,33 @@ string DecodeToString(vector<int> quadro)
 		}
 		mensagem.push_back((char)letra);
 	}
-	printw("\nSua mensagem: ");
-	for (int k : mensagem)
-		printw("%c", k);
+
+	// printw("\nSua mensagem: ");
+	// for (int k : mensagem)
+	// 	printw("%c", k);
 
 	refresh();
 
 	return mensagem;
 }
 void CamadaDeAplicacaoReceptora(vector<int> quadro){
-    printw("\ncamada de aplicacao receptora");
-    AplicacaoReceptora(DecodeToString(quadro));
+
+	attron(COLOR_PAIR(5));
+	printw("Camada de Aplicação Receptora\n");
+	attroff(COLOR_PAIR(5));
+
+	AplicacaoReceptora(DecodeToString(quadro));
 }
 
 void AplicacaoReceptora(string mensagem){
-    printw("\nA mensagem recebida foi: ");
-		for (int k : mensagem)
-			printw("%c", k);
-		printw("\n");
 
-		refresh();
+	attron(COLOR_PAIR(1));
+	printw("A mensagem recebida foi: ");
+	attroff(COLOR_PAIR(1));
+
+	for (int k : mensagem)
+		printw("%c", k);
+	printw("\n");
+
+	refresh();
 }
