@@ -26,7 +26,8 @@ vector<int> ConvertToBits(string mensagem){
     return quadro;
 }
 void CamadaDeAplicacaoTransmissora(string mensagem){
-    //transformar a mensagem em bits e colocar em quadro.
+		//transformar a mensagem em bits e colocar em quadro.
+
 		vector<int> quadro = ConvertToBits(mensagem);
 
 		attron(COLOR_PAIR(2));
@@ -68,7 +69,8 @@ void AplicacaoTransmissora(){
 	{
 		mensagem.push_back(a[i]);
 		i++;
-	}
+	};
+
 	printw("\n");
 	attron(COLOR_PAIR(2));
 	printw("Escolha o tipo de codificação\n");
@@ -83,8 +85,13 @@ void AplicacaoTransmissora(){
 	attron(COLOR_PAIR(1));
 	printw("Mensagem a ser transmitida: ");
 	attroff(COLOR_PAIR(1));
-	printw("%s\n", mensagem);
-	
+	for (int k : mensagem )
+	{
+		printw("%c", k);
+		
+	}
+	printw("\n");
+
 	attron(COLOR_PAIR(1));
 	if (op == '0')
 	{
