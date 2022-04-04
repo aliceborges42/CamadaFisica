@@ -1,8 +1,11 @@
 #include <iostream>
 #include "../include/CamadaFisica.hpp"
 
+using namespace std;
 
 int main(){
-    AplicacaoTransmissora();
-    return 0;
+
+	AplicacaoTransmissora();
+
+	return 0;
 }

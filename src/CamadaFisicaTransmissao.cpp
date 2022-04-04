@@ -1,12 +1,8 @@
-
-
 using namespace std;
 #include "../include/CamadaFisica.hpp"
 
-
 vector<int> ConvertToBits(string mensagem){
     int i=0, j=0;
-    // bitset<8>set(mensagem[x]);
     vector<int> quadro;
 
     for(i=0; i < mensagem.size(); i++){
@@ -30,31 +26,56 @@ vector<int> ConvertToBits(string mensagem){
     return quadro;
 }
 void CamadaDeAplicacaoTransmissora(string mensagem){
-    //int quadro[] = mensagem; //trabalhar em bits --- mudar
     //transformar a mensagem em bits e colocar em quadro.
-
-
-    vector<int> quadro = ConvertToBits(mensagem);
+		vector<int> quadro = ConvertToBits(mensagem);
     for(int i: quadro)
-        cout << i;
-    cout<<endl;
-    CamadaFisicaTransmissora(quadro);
-}
-void AplicacaoTransmissora(){
-    string mensagem;
-    cout << "Digite uma mensagem: " << endl;
-    getline (cin, mensagem);
+        printw("%d", i);
+		printw("\n");
+		CamadaFisicaTransmissora(quadro);
 
-    CamadaDeAplicacaoTransmissora(mensagem);
+		refresh();
+}
+
+char op;
+void AplicacaoTransmissora(){
+	
+	char a[90];
+	string mensagem;
+
+	initscr();
+
+	printw("Digite uma mensagem: ");
+	getstr(a);
+	
+	int i = 0;
+	while (a[i] != '\0')
+	{
+		mensagem.push_back(a[i]);
+		i++;
+	}
+	printw("\n");
+	printw(" 0 - Binaria\n 1 - Manchester\n 2 - Bipolar\n\n");
+	scanw("%c", &op);
+	printw("\n");
+
+	refresh();
+	CamadaDeAplicacaoTransmissora(mensagem);
+
+	getch();
+
+	endwin();
+
 }
 
 vector<int> CamadaFisicaTransmissoraCodificacaoBinaria(vector<int>quadro){
     
-    cout<< "\nCodificação Fisica Binaria: ";
+    printw("\nCodificação Fisica Binaria: ");
     for(int i: quadro)
-        cout << i;
-    cout<<endl;
-    return quadro;
+			printw("%d", i);
+		printw("\n");
+
+		refresh();
+		return quadro;
 }
 
 vector<int> CamadaFisicaTransmissoraCodificacaoManchester(vector<int> quadro){
@@ -77,11 +98,13 @@ vector<int> CamadaFisicaTransmissoraCodificacaoManchester(vector<int> quadro){
 
         }
     }
-    cout<< "Codificacao Manchester: ";
+    printw("\nCodificacao Manchester: ");
     for(int k: fluxoBrutoDeBits)
-        cout << k;
-    cout<<endl;
-    return fluxoBrutoDeBits;
+			printw("%d", k);
+		printw("\n");
+		refresh();
+
+		return fluxoBrutoDeBits;
 }
 
 
@@ -107,38 +130,34 @@ vector<int> CamadaFisicaTransmissoraCodificacaoBipolar(vector<int> quadro){
          
         }
     }
-    cout<< "Codificação Bipolar: ";
+    printw("\nCodificação Bipolar: ");
     for(int k: fluxoBrutoDeBits)
-        cout << k;
-    cout<<endl;
-    return fluxoBrutoDeBits;
+        printw("%d", k);
+		printw("\n");
+
+		refresh();
+
+		return fluxoBrutoDeBits;
 }
 
 void CamadaFisicaTransmissora(vector <int> quadro){
-    int tipoDeCodificacao = 2;
+    char tipoDeCodificacao = op;
     vector <int> fluxoBrutoDeBits;
 
     switch (tipoDeCodificacao) {
-        case 0:
+        case '0':
             fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
             break;
-        case 1:
+        case '1':
             fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoManchester(quadro);
             break;
-        case 2:
+        case '2':
             fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoBipolar(quadro);
             break;
     }
 
     MeioDeComunicacao(fluxoBrutoDeBits);
-    // for(int i: fluxoBrutoDeBits)
-    //     cout << i;
-    // cout<<endl;
 }
-
-
-
-
 
 void MeioDeComunicacao(vector <int> fluxoBrutodeBits){
 
@@ -157,11 +176,14 @@ void MeioDeComunicacao(vector <int> fluxoBrutodeBits){
 // //RECEPÇÃO
 vector<int> CamadaFisicaReceptoraCodificacaoBinaria(vector<int> quadro){
 
-    cout<< "\nDecodificação Fisica Binaria: ";
+    printw("\nDecodificação Fisica Binaria: ");
     for(int i: quadro)
-        cout << i;
-    cout<<endl;
-    return quadro;
+        printw("%d", i);
+		printw("\n");
+
+		refresh();
+
+		return quadro;
 }
 vector<int> CamadaFisicaReceptoraCodificacaoManchester(vector<int> fluxoBrutoDeBits){
     int i;
@@ -174,11 +196,14 @@ vector<int> CamadaFisicaReceptoraCodificacaoManchester(vector<int> fluxoBrutoDeB
             quadro.push_back(1);
         }
     }
-    cout<< "Decodificacao Manchester: ";
+    printw("\nDecodificacao Manchester: ");
     for(int k: quadro)
-        cout << k;
-    cout<<endl;
-    return quadro;
+        printw("%d", k);
+		printw("\n");
+
+		refresh();
+
+		return quadro;
 }
 
 vector<int> CamadaFisicaReceptoraCodificacaoBipolar(vector<int> fluxoBrutoDeBits){
@@ -191,102 +216,74 @@ vector<int> CamadaFisicaReceptoraCodificacaoBipolar(vector<int> fluxoBrutoDeBits
         else
             quadro.push_back(0);
     }
-    cout<< "Decodificacao Bipolar: ";
+    printw("\nDecodificacao Bipolar: ");
     for(int k: quadro)
-        cout << k;
-    cout<<endl;
-    return quadro;
+        printw("%d", k);
+		printw("\n");
+
+		refresh();
+
+		return quadro;
 }
 
 void CamadaFisicaReceptora(vector<int> quadro){
-    int tipoDeDecodificacao = 2; // alterar de acordo com o teste
+    char tipoDeDecodificacao = op; // alterar de acordo com o teste
     vector<int> fluxoBrutoDeBits;
 
     switch (tipoDeDecodificacao) {
-        case 0:
+        case '0':
             fluxoBrutoDeBits = CamadaFisicaReceptoraCodificacaoBinaria(quadro);
             break;
-        case 1:
+        case '1':
             fluxoBrutoDeBits = CamadaFisicaReceptoraCodificacaoManchester(quadro);
             break;
-        case 2:
+        case '2':
             fluxoBrutoDeBits = CamadaFisicaReceptoraCodificacaoBipolar(quadro);
             break;
     }
-    cout << "camada fisica receptora"<<endl;
-    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
+    printw("\ncamada fisica receptora");
+
+		refresh();
+
+		CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
 }
 
-
-
-string DecodeToString(vector<int> quadro){
-    int i=0, y=0, j=0, decimal=0;
-    bitset<8> text;
-    string mensagem;
-    // i=quadro.size();
-    int letra = 0;
-    // cout << "quadro size: "<< quadro.size() << endl;
-    
-    // for(i=0; i < quadro.size(); i+=8){
-    //     cout << "i: "<< i << endl;
-    //     letra = 0;
-    //     if(i >= quadro.size()-1)
-    //         break;
-    //     y=0;
-    //     for(j=i; j<i+8; j++){
-    //         cout << "j: "<< j << " quadro j: " << quadro[j]<< endl;
-    //         // cout << "j%8: " << j%8 << endl;
-    //         if(quadro[j%8]==1){
-    //             cout << "test"<< endl;
-    //             letra = letra + pow(2,7-y); 
-    //             //text.set(j%8, 1);
-                
-    //         }
-    //         y++;
-    //     }
-    //     cout << "letra: " << letra << endl;
-    //     //mensagem += (char)letra;
-    //     mensagem.push_back((char)letra);
-    //     //reverse(mensagem.begin(), mensagem.end());
-    //     cout << mensagem << endl;
-    //     //text.reset();
-    // }
-    for (i = 0; i < (quadro.size() / 8); i++)
+string DecodeToString(vector<int> quadro)
+{
+	int i = 0, y = 0, j = 0;
+	string mensagem;
+	int letra = 0;
+	for (i = 0; i < quadro.size(); i += 8)
 	{
-
-		decimal = 0;
-
+		letra = 0;
 		y = 0;
-        //111111 101010
-		for (j = ((i * 8) + 7); j >= (i * 8); j--){
-
-			if (quadro[j] == 1){
-
-				decimal = decimal + pow(2, y);
-			}
+		for (j = i; j < (8 + i); j++)
+		{
+			if (quadro[j] == 1)
+				letra = letra + pow(2, 7 - y);
 
 			y++;
 		}
-
-		mensagem.push_back((char)decimal);
+		mensagem.push_back((char)letra);
 	}
-    cout << "Sua mensagem: "<< mensagem << endl;
-    return mensagem;
+	printw("\nSua mensagem: ");
+	for (int k : mensagem)
+		printw("%c", k);
+
+	refresh();
+
+	return mensagem;
 }
 void CamadaDeAplicacaoReceptora(vector<int> quadro){
-    //string mensagem = quadro;
-    //string mensagem = "";
-    //int i;
-
-    // for(i=0; i> < quadro.size(); i++){
-    //     mensagem += quadro.to_string<char,std::string::traits_type,std::string::allocator_type>();
-    // }
-    // AplicacaoReceptora(mensagem)
-    cout << "camada de aplicacao receptora" << endl;
-    // string mensagem = DecodeToString(quadro);
+    printw("\ncamada de aplicacao receptora");
     AplicacaoReceptora(DecodeToString(quadro));
 }
 
 void AplicacaoReceptora(string mensagem){
-    cout << "A mensagem recebida foi: " << mensagem << endl;
+    printw("\nA mensagem recebida foi: ");
+		for (int k : mensagem)
+			printw("%c", k);
+		printw("\n");
+
+		refresh();
 }

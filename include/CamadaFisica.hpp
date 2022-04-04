@@ -7,6 +7,8 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include <bitset>
+#include <ncurses.h>
+
 using namespace std;
 void AplicacaoTransmissora();
 void CamadaDeAplicacaoTransmissora(string mensagem);
