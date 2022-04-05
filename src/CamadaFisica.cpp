@@ -1,5 +1,8 @@
 using namespace std;
 #include "../include/CamadaFisica.hpp"
+// // Declaração da variavel onde será atribuido a opção de codificação
+char op;
+
 
 vector<int> ConvertToBits(string mensagem){
     int i=0, j=0;
@@ -25,11 +28,14 @@ vector<int> ConvertToBits(string mensagem){
 
     return quadro;
 }
+
+// // 
 void CamadaDeAplicacaoTransmissora(string mensagem){
 		//transformar a mensagem em bits e colocar em quadro.
 
 		vector<int> quadro = ConvertToBits(mensagem);
 
+		// codigo relacionado a interface grafica
 		attron(COLOR_PAIR(2));
 		printw("Camada De Aplicacao Transmissora\n");
 		attroff(COLOR_PAIR(2));
@@ -42,12 +48,12 @@ void CamadaDeAplicacaoTransmissora(string mensagem){
 		refresh();
 }
 
-char op;
 void AplicacaoTransmissora(){
 	
 	char a[90];
 	string mensagem;
 
+// // Inicia a tela e as cores utilizadas
 	initscr();
 	start_color();
 	init_pair(1, COLOR_GREEN, COLOR_BLACK);
@@ -121,6 +127,7 @@ void AplicacaoTransmissora(){
 
 	getch();
 
+// // Encerra a tela de execução
 	endwin();
 }
 
@@ -144,7 +151,7 @@ vector<int> CamadaFisicaTransmissoraCodificacaoManchester(vector<int> quadro){
     vector<int> fluxoBrutoDeBits;
     int i, j;
     for(i=0; i < quadro.size(); i++){
-        switch(quadro[i]){
+        switch(quadro[i]){ // switch representa o funcionamento da porta XOR com as entradas relacionadas ao clock e o bit atual, gerando a saida de dois bits no fluxo bruto de dados
             case 0:
                 fluxoBrutoDeBits.push_back(0);
                 fluxoBrutoDeBits.push_back(1);
@@ -176,8 +183,8 @@ vector<int> CamadaFisicaTransmissoraCodificacaoBipolar(vector<int> quadro){
     int i;
     int flag = 0;
     for(i=0; i<quadro.size(); i++){
-        if(quadro[i] == 1){
-            switch(flag){
+        if(quadro[i] == 1){ // Seta no fluxo de bits valores de corrente +V ou -V
+            switch(flag){ // A flag determina a inversão de valores de V
                 case 0:
                     flag =1;
                     fluxoBrutoDeBits.push_back(1);
@@ -254,9 +261,11 @@ vector<int> CamadaFisicaReceptoraCodificacaoBinaria(vector<int> quadro){
 
 	return quadro;
 }
+
 vector<int> CamadaFisicaReceptoraCodificacaoManchester(vector<int> fluxoBrutoDeBits){
     int i;
     vector<int> quadro;
+		// Separando os bits do sinal do clock para decodificar a mensagem
     for(i=0; i<fluxoBrutoDeBits.size(); i+=2){
         if(fluxoBrutoDeBits[i]==0 && fluxoBrutoDeBits[i+1]==1){
             quadro.push_back(0);
@@ -283,11 +292,13 @@ vector<int> CamadaFisicaReceptoraCodificacaoBipolar(vector<int> fluxoBrutoDeBits
     vector<int> quadro;
 
     for(i=0; i<fluxoBrutoDeBits.size(); i++){
+			// Decodificando sinais de pulso +V ou -V para sinal logico 1 
         if(fluxoBrutoDeBits[i] == 1 || fluxoBrutoDeBits[i]==-1)
             quadro.push_back(1);
         else
             quadro.push_back(0);
     }
+
 		attron(COLOR_PAIR(2));
 		printw("\nCamada Fisica Receptora - Codificação Bipolar: \n");
 		attroff(COLOR_PAIR(2));
@@ -302,7 +313,7 @@ vector<int> CamadaFisicaReceptoraCodificacaoBipolar(vector<int> fluxoBrutoDeBits
 }
 
 void CamadaFisicaReceptora(vector<int> quadro){
-    char tipoDeDecodificacao = op; // alterar de acordo com o teste
+    char tipoDeDecodificacao = op;
     vector<int> fluxoBrutoDeBits;
 
     switch (tipoDeDecodificacao) {
@@ -331,10 +342,13 @@ string DecodeToString(vector<int> quadro)
 	int i = 0, y = 0, j = 0;
 	string mensagem;
 	int letra = 0;
+	// Pega grupo de 8 bits 
 	for (i = 0; i < quadro.size(); i += 8)
 	{
 		letra = 0;
 		y = 0;
+		// Ler os 8 bits e converte de binario para decimal utilizando base 2
+		// e o expoente da potencia sendo o indice do bit
 		for (j = i; j < (8 + i); j++)
 		{
 			if (quadro[j] == 1)
@@ -342,17 +356,15 @@ string DecodeToString(vector<int> quadro)
 
 			y++;
 		}
+		// Converte o valor inteiro em um caracter e concatena com a string que sera retornada
 		mensagem.push_back((char)letra);
 	}
-
-	// printw("\nSua mensagem: ");
-	// for (int k : mensagem)
-	// 	printw("%c", k);
 
 	refresh();
 
 	return mensagem;
 }
+
 void CamadaDeAplicacaoReceptora(vector<int> quadro){
 
 	attron(COLOR_PAIR(5));
